@@ -1,0 +1,104 @@
+$lightGreen: #b9e7e7;
+
+.navbar-background {
+    .navbar-container {
+        padding        : 10px 0px;
+        height         : 50px;
+        display        : flex;
+        justify-content: space-between;
+        align-items    : center;
+        font-size      : 15px;
+
+        .logo {
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            height         : 50px;
+            user-select    : none;
+
+            img {
+                width : 120px;
+                height: 50px;
+            }
+        }
+
+        .navbar-menu {
+            width          : 600px;
+            color          : inherit;
+            display        : flex;
+            align-items    : center;
+            justify-content: flex-start;
+
+            .menu-child {
+                width          : 120px;
+                height         : 40px;
+                display        : flex;
+                align-items    : center;
+                justify-content: center;
+                font-size      : 16px;
+                padding        : 5px;
+                cursor         : pointer;
+
+                h6 {
+                    font-weight: 400;
+                    color      : #ccc;
+                }
+
+                &:hover {
+                    background-color: $lightGreen;
+
+                    h6 {
+                        color: teal;
+                    }
+                }
+
+                &.active {
+                    background-color: $lightGreen;
+
+                    h6 {
+                        color: teal;
+                    }
+                }
+            }
+
+            .menu-child-info {
+                display           : flex;
+                align-items       : center;
+                justify-content   : space-between;
+                gap               : 10px;
+                height            : 50px;
+                // width          : 300px;
+
+                span {
+                    cursor: pointer;
+                }
+
+                .infor-and-logout {
+                    display        : flex;
+                    align-items    : center;
+                    justify-content: space-around;
+                    gap            : 8px;
+                }
+
+                span.write {
+                    width           : 50px;
+                    background-color: $lightGreen;
+                    height          : 100%;
+                    border-radius   : 50%;
+                    color           : white;
+                    font-weight     : 300;
+                    display         : flex;
+                    align-items     : center;
+                    justify-content : center;
+                    border          : 1px solid white; // Chữa lỗi toang UI
+
+                    &:hover {
+                        color           : teal;
+                        background-color: white;
+                        border          : 1px solid $lightGreen;
+                    }
+                }
+            }
+        }
+    }
+}

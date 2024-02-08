@@ -1,0 +1,55 @@
+$lightGreen: #b9e7e7;
+
+.menu-container {
+    display       : flex;
+    flex-direction: column;
+
+    h1 {
+        font-size  : 20px;
+        color      : #555;
+        user-select: none;
+    }
+
+    .posts {
+        display       : flex;
+        flex-direction: column;
+        gap           : 25px;
+
+        .post {
+            display  : flex;
+            font-size: 12px;
+            gap      : 10px;
+
+            img {
+                // flex      : 1;
+                width     : 160px;
+                max-height: 140px;
+                overflow  : hidden;
+                object-fit: cover;
+            }
+
+            .post-content {
+                h2 {
+                    flex  : 2;
+                    margin: 0;
+                }
+
+                button {
+                    border          : none;
+                    width           : max-content;
+                    padding         : 8px 10px;
+                    margin-top      : 5px;
+                    border          : 1px solid $lightGreen;
+                    color           : teal;
+                    background-color: white;
+
+                    &:hover {
+                        border          : 1px solid white;
+                        color           : white;
+                        background-color: $lightGreen;
+                    }
+                }
+            }
+        }
+    }
+}

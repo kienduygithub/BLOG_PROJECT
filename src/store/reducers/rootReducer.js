@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 import { persistReducer } from 'redux-persist'
 // REDUCERS
 import counterReducer from "./counterReducer";
+import userReducer from "./userReducer";
 // PERSISTS
 const persistCommonConfig = {
     storage: storage,
@@ -16,10 +17,14 @@ const counterPersistConfig = {
     // blacklist: [ 'State gì đó' ],
     // whitelist: [ 'State gì đó' ]
 }
-
+const userPersistConfig = {
+    ...persistCommonConfig,
+    key: 'user'
+}
 const rootReducer = combineReducers({
     // counter: counterReducer
-    counter: persistReducer(counterPersistConfig, counterReducer)
+    counter: persistReducer(counterPersistConfig, counterReducer),
+    user: persistReducer(userPersistConfig, userReducer)
 })
 
 export default rootReducer;

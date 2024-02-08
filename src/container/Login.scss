@@ -1,0 +1,67 @@
+$lightGreen: #b9e7e7;
+
+.login-container {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    flex-direction  : column;
+    height          : 100vh;
+    background-color: $lightGreen;
+
+    h1.title {
+        font-size    : 20px;
+        color        : teal;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display         : flex;
+        flex-direction  : column;
+        padding         : 10px;
+        background-color: white;
+        width           : 200px;
+        gap             : 20px;
+
+        input.form-input {
+            padding      : 10px;
+            border       : none;
+            border-bottom: 1px solid gray;
+            outline      : none;
+        }
+
+        p.error-msg {
+            margin   : 0;
+            font-size: 10px;
+            color    : red;
+        }
+
+        button.form-button {
+            padding         : 10px;
+            border          : none;
+            background-color: teal;
+            color           : white;
+            cursor          : pointer;
+        }
+
+        span.dont-have-account {
+            font-size     : 12px;
+            display       : flex;
+            align-items   : center;
+            flex-direction: column;
+            user-select   : none;
+
+            span.navigate-to-register {
+                color : teal;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+
+                &:active {
+                    transform: scale(0.96);
+                }
+            }
+        }
+    }
+}

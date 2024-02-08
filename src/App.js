@@ -1,26 +1,72 @@
-import React, { useEffect, useState } from 'react'
 import './App.scss';
-import * as actions from './store/actions'
-import { connect } from 'react-redux'
+import {
+    createBrowserRouter,
+    RouterProvider,
+    Route,
+    Outlet
+} from "react-router-dom";
+import React from 'react';
+import Home from './container/Home';
+import Register from './container/Register';
+import Login from './container/Login';
+import Single from './container/Single';
+import Write from './container/Write';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+const Layout = () => {
+    return (
+        <React.Fragment>
+            <Navbar />
+            <Outlet />
+            <Footer />
+        </React.Fragment>
+    )
+}
+const router = createBrowserRouter([
+    // <React.Fragment>
+    //     <Navbar />
+    //     <Component />
+    //     <Footer />
+    // </React.Fragment>
+    {
+        path: "/",
+        element: <Layout />,
+        children: [
+            { path: '/', element: <Home /> }
+        ]
+    },
+    {
+        path: "/register",
+        element: <Register />
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
+    {
+        path: "/post/:id",
+        element: <Layout />,
+        children: [
+            { path: '/post/:id', element: <Single /> }
+        ]
+    },
+    {
+        path: "/write",
+        element: <Layout />,
+        children: [
+            { path: '/write', element: <Write /> }
+        ]
+    },
+]);
 function App(props) {
     return (
-        < div className="App" >
-            <h1>Xin chào, Duy đây!</h1>
-            <div>
-                <button onClick={() => props.decreaseCounter()}>Decrease</button>
-                <span>Count: {props.count}</span>
-                <button onClick={() => props.increaseCounter()}>Increase</button>
+        <div className="App">
+            <div className='container'>
+                <RouterProvider router={router} />
             </div>
-        </div >
+        </div>
     );
 }
-const mapStateToProps = (state) => {
-    return {
-        count: state.counter.count
-    }
-}
-const mapDispatchToProps = (dispatch) => ({
-    increaseCounter: () => dispatch(actions.increaseStart()),
-    decreaseCounter: () => dispatch(actions.decreaseStart())
-})
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default App
