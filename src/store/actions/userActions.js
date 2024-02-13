@@ -8,3 +8,11 @@ export const saveUserDataLoginSuccess = (userData) => ({
 export const saveUserDataLoginFailed = () => ({
     type: actionTypes.SAVE_USER_DATA_LOGIN_FAILED
 })
+
+export const resetUserInfoSuccess = () => ({
+    type: actionTypes.RESET_USER_INFO_SUCCESS
+})
+
+export const resetUserInfoFailed = () => ({
+    type: actionTypes.RESET_USER_INFO_FAILED
+})

@@ -13,6 +13,7 @@ import Single from './container/Single';
 import Write from './container/Write';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { Bounce, ToastContainer } from 'react-toastify';
 
 const Layout = () => {
     return (
@@ -65,6 +66,19 @@ function App(props) {
             <div className='container'>
                 <RouterProvider router={router} />
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={true}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce}
+            />
         </div>
     );
 }

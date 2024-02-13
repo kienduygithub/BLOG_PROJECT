@@ -1,9 +1,12 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    username: 'Kiến Duy',
+    username: '',
+    access_token: '',
+    email: '',
     image: '',
-    phone: ''
+    phone: '',
+    address: ''
 }
 
 const userReducer = (state = initialState, action) => {
@@ -16,6 +19,12 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.SAVE_USER_DATA_LOGIN_FAILED:
             return {
                 ...state
+            }
+        case actionTypes.RESET_USER_INFO_SUCCESS:
+            return {
+                ...state,
+                username: '', address: '', email: '',
+                image: '', phone: '', access_token: ''
             }
         default:
             return {

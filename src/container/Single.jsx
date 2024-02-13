@@ -15,8 +15,6 @@ const Single = (props) => {
     }
     const fetchSinglePostData = () => {
         const postId = location.state.id;
-        props.saveUserDataLoginSuccess({username: 'Kiến Duy Vip'})
-        console.log(props.user)
         if (postId) {
             // API
         }

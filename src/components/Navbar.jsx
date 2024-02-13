@@ -1,34 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import './Navbar.scss'
 import { connect } from 'react-redux'
 import logoBlog from '../assets/logo.png'
 import { useNavigate } from 'react-router'
 import { useLocation } from "react-router-dom";
-const Navbar = () => {
+import * as authServices from '../services/authServices'
+import * as actions from '../store/actions'
+const Navbar = (props) => {
     const navigate = useNavigate();
     const location = useLocation()
-    console.log(location)
+    const [ user, setUser ] = useState({
+        username: '',
+        email: ''
+    })
     const handleNavigateLink = (type) => {
         if (type === 'ART') {
-            navigate('/?cat=art')
+            navigate('/?cat=art', {state: {type: 'art'}})
         } else if (type === 'SCIENCE') {
-            navigate('/?cat=science')
+            navigate('/?cat=science', {state: {type: 'science'}})
         } else if (type === 'TECHNOLOGY') {
-            navigate('/?cat=technology')
+            navigate('/?cat=technology', {state: {type: 'technology'}})
         } else if (type === 'CINEMA') {
-            navigate('/?cat=cinema')
+            navigate('/?cat=cinema', {state: {type: 'cinema'}})
         } else if (type === 'DESIGN') {
-            navigate('/?cat=design')
+            navigate('/?cat=design', {state: {type: 'design'}})
         } else if (type === 'FOOD') {
-            navigate('/?cat=food')
+            navigate('/?cat=food', {state: {type: 'food'}})
         } else if (type === 'WRITE') {
             navigate('/write')
         }
     }
+    const handleLogout = async () => {
+        const response = await authServices.handleLogout();
+        if (response && response.status === 'OK') {
+            props.resetUserInfo();
+        }
+    }
+    useEffect(() => {
+        if (props.user) {
+            setUser(props.user)
+        }
+    }, [props.user])
     return (
         <div className="navbar-background">
             <div className="navbar-container">
-                <div className="logo">
+                <div className="logo" onClick={() => navigate('/', {state: {type: ''}})}>
                     <img src={ logoBlog } alt="logo-image"/>
                 </div>
                 <div className="navbar-menu">
@@ -52,8 +68,16 @@ const Navbar = () => {
                     </div>
                     <div className="menu-child-info">
                         <div className="infor-and-logout">
-                            <span>John</span>
-                            <span title="Logout">Logout</span>
+                            {
+                                user.username ? 
+                                    <>
+                                        <span>{user.username}</span>
+                                        <span onClick={() => handleLogout()} title="Logout">Logout</span>
+                                    </>
+                                    :
+                                    <span onClick={() => navigate('/login')}>Login</span>
+                                    
+                            }
                         </div>
                         <span className="write" onClick={() => handleNavigateLink('WRITE')}>
                             WRITE
@@ -66,9 +90,9 @@ const Navbar = () => {
 }
 
 const mapStateToProps = (state) => ({
-
+    user: state.user
 }) 
 const mapDispatchToProps = (dispatch) => ({
-
+    resetUserInfo: () => dispatch(actions.resetUserInfoSuccess())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar)
