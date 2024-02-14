@@ -7,7 +7,8 @@ const Home = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const { state } = location;
-    console.log('Check location: ', location)
+    const [ type, setType ] = useState('');
+    // console.log('Check location: ', location)
     // const posts = [
     //     {
     //         id: 1,
@@ -36,7 +37,7 @@ const Home = () => {
     // ];
     const [ posts, setPosts ] = useState([]);
     const fetchAllPosts = async () => {
-        const response = await postServices.getAllPosts(state.type);
+        const response = await postServices.getAllPosts(type);
         if (response && response.status === 'OK') {
             setPosts(response.data)
         } else if (response && response.status === 'ERR') {
@@ -45,20 +46,23 @@ const Home = () => {
     }
     useEffect(() => {
         fetchAllPosts()
-    }, [])
+    }, [type])
     useEffect(() => {
-        fetchAllPosts()
-    }, [state.type])
-    console.log('state.type:', state.type)
+        if (state?.type) {
+            setType(state?.type)
+        }else{
+            setType('')
+        }
+    }, [state])
     return (
         <div className="home-container">
             <div className="posts">
                 {
-                    posts.map((post) => {
+                    posts && posts.length > 0 && posts.map((post) => {
                         return (
                             <div className="post" key={post.id}>
                                 <div className="img">
-                                    <img src={ post.image} alt="post"/>
+                                    <img src={ post.img_post} alt="post"/>
                                 </div>
                                 <div className="content">
                                     <div onClick={() => navigate(`/post/${post.id}`, {state: post})}>

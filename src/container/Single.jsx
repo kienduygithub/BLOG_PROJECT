@@ -5,56 +5,79 @@ import deleteImage from '../assets/delete.png';
 import {connect} from 'react-redux'
 import { useLocation, useNavigate } from "react-router";
 import * as actions from '../store/actions'
+import * as postServices from '../services/postServices'
 import Menu from "../components/Menu";
+import moment from 'moment'
 const Single = (props) => {
-    // const [ post, setPost ] = useState({});
+    const [ post, setPost ] = useState({});
+    const currentUser = props.user;
     const navigate = useNavigate();
     const location = useLocation();
     const handleNavigateEdit = (post) => {
         navigate(`/write?edit=${post.id}`, {state: post})
     }
-    const fetchSinglePostData = () => {
+    const fetchSinglePostData = async () => {
         const postId = location.state.id;
         if (postId) {
-            // API
+            const response = await postServices.getSinglePost(postId);
+            if (response && response.status === 'OK') {
+                setPost(response.data)
+            } else if (response && response.status === 'ERR') {
+                alert(`Got trouble: ${response.message}`)
+            }
+        }
+    }
+    const handleDeleteSinglePost = async (postId) => {
+        const response = await postServices.handleDeletePost(postId);
+        if (response && response.status === 'OK') {
+            alert(response.message)
+            navigate('/')
+        } else if (response && response.status === 'ERR') {
+            alert(response.message)
         }
     }
     useEffect(() => {
         fetchSinglePostData();
-    }, [ location.state.id ])
+    }, []);
     useEffect(() => {
-        console.log(props.user)
-    }, [props.user])
+        fetchSinglePostData();
+    }, [location.state.id])
     return (
         <div className="single-container">
             <div className="single-content">
-                <img src={"https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt={ 'post' } />
+                <img src={post?.img_post} alt={ 'post' } />
                 <div className="content-user">
-                    <img src={"https://images.pexels.com/photos/7008010/pexels-photo-7008010.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt={ 'user' } />
+                    {
+                        post?.userImg &&
+                            <img src={post?.userImg} alt={ 'user' } />
+                    }
                     <div className="user-info">
-                        <span className="user-name">John</span>
-                        <p className="time-posted">Posted 2 days ago</p>
+                        <span className="user-name">{ post?.username}</span>
+                        <p className="time-posted">Posted { moment(post.date).fromNow() }</p>
                     </div>
                     <div className="user-action">
-                        <div className="action edit-action" onClick={() => handleNavigateEdit({id: 1})}>
-                            <img src={ editImage } alt="edit"/>
-                        </div>
-                        <div className="action delete-action">
-                            <img src={ deleteImage } alt="delete"/>
-                        </div>
+                        {
+                            currentUser.username === post.username && 
+                            <>
+                                <div className="action edit-action" onClick={() => handleNavigateEdit({id: post.id})}>
+                                    <img src={ editImage } alt="edit"/>
+                                </div>
+                                <div className="action delete-action" onClick={() => handleDeleteSinglePost(post.id)}>
+                                    <img src={ deleteImage } alt="delete"/>
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
                 <h1 className="title-post">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit
+                    {post.title}
                 </h1>
                 <p className="content-post">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit iste repudiandae temporibus vero, iusto ad quidem tempora nulla possimus voluptate nostrum quia eius voluptas explicabo aliquid iure rerum doloremque saepe.
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit iste repudiandae temporibus vero, iusto ad quidem tempora nulla possimus voluptate nostrum quia eius voluptas explicabo aliquid iure rerum doloremque saepe.
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odit iste repudiandae temporibus vero, iusto ad quidem tempora nulla possimus voluptate nostrum quia eius voluptas explicabo aliquid iure rerum doloremque saepe.
+                    {post.description}
                 </p>
             </div>
             <div className="single-menu">
-                <Menu/>
+                <Menu category={ post?.category } />
             </div>
         </div>
     )

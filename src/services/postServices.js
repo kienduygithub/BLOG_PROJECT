@@ -10,3 +10,18 @@ export const getAllPosts = async (type) => {
     }
     return response.data;
 }
+
+export const getSinglePost = async (postId) => {
+    const response = await ins.get(`/posts/${ postId }`);
+    return response.data;
+}
+
+export const handleDeletePost = async (postId) => {
+    const response = await ins.delete(`/posts/${ postId }`);
+    return response.data;
+}
+
+export const handleUploadFile = async (file) => {
+    const response = await ins.post('/upload', file)
+    return response.data;
+}
